@@ -4,12 +4,14 @@
 
     @foreach ($menu as $nav)
         @if (strpos($nav->mod_name, 'http') === 0)
-            <li>
-                <a class="nav-link menu-title {{ routeActive($nav->mod_name) }}"
-                    href="{{ $nav->mod_name }}">
-                    <i data-feather="{{$nav->icon}}"></i><span>{{ $nav->label }}</span>
-                </a>
-            </li>
+            @can('read',$nav->mod_name)
+                <li>
+                    <a class="nav-link menu-title {{ routeActive($nav->mod_name) }}"
+                        href="{{ $nav->mod_name }}">
+                        <i data-feather="{{$nav->icon}}"></i><span>{{ $nav->label }}</span>
+                    </a>
+                </li>
+            @endcan
         @else
             @can('read',$nav->mod_name)
                 <li class="dropdown">
@@ -24,23 +26,23 @@
                     @if ($nav->submenu)
                     <ul class="nav-submenu menu-content">
                         @foreach ($nav->submenu as $item)
-                            @if (strpos($item->mod_name, 'http') === 0)
-                                <li>
-                                    <a
-                                        href="{{ $item->mod_name }}">
-                                        <i data-feather="{{$item->icon}}"></i><span>{{ $item->label }}</span>
-                                    </a>
-                                </li>
-                            @else
-                                @can('read',$item->mod_name)
+                            @can('read',$item->mod_name)
+                                @if (strpos($item->mod_name, 'http') === 0)
                                     <li>
-                                        <a href="{{ url('/admin/'.$item->mod_name)}}">
+                                        <a
+                                            href="{{ $item->mod_name }}">
                                             <i data-feather="{{$item->icon}}"></i><span>{{ $item->label }}</span>
                                         </a>
                                     </li>
-                                @endcan
+                                @else
 
-                            @endif
+                                        <li>
+                                            <a href="{{ url('/admin/'.$item->mod_name)}}">
+                                                <i data-feather="{{$item->icon}}"></i><span>{{ $item->label }}</span>
+                                            </a>
+                                        </li>
+                                @endif
+                            @endcan
                         @endforeach
                     </ul>
                     @endif

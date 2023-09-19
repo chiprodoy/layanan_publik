@@ -79,7 +79,7 @@ class PermintaanLayananController extends BackendController
     public function browse(Request $request,$idJenisLayanan)
     {
         $this->jenisLayanan=JenisLayanan::find($idJenisLayanan);
-        $this->CURRENT_PAGE=new Page($this->titleOfIndexPage,route($this->indexURL));
+        $this->CURRENT_PAGE=new Page($this->titleOfIndexPage.' '.$this->jenisLayanan->jenis_layanan,route($this->indexURL));
 
         $this->editURL='permintaan.edit/{uuid}';
         $this->deleteURL='permintaan.destroy';

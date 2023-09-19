@@ -6,7 +6,7 @@
               <div class="col-md-6">
                   <div class="icon-box">
                   <i class="bi bi-card-checklist"></i>
-                  <h4><a href="{{ route('permintaan_layanan.create',$item->id)}}">{{ $item->jenis_layanan}}</a></h4>
+                  <h4><a href="{{ route('permintaan.create',$item->id)}}">{{ $item->jenis_layanan}}</a></h4>
                   <p>{{ $item->deskripsi_jenis_layanan }}</p>
                   </div>
               </div>
