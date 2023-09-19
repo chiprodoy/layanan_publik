@@ -7,7 +7,9 @@ use App\Http\Requests\StorePermintaanLayananRequest;
 use App\Http\Requests\UpdatePermintaanLayananRequest;
 use App\Models\JenisLayanan;
 use App\Models\RiwayatPermintaan;
+use App\Models\Role;
 use App\Models\RoleName;
+use App\Models\StatusPermintaan;
 use App\Models\SyaratJenisLayanan;
 use App\Models\TipePersyaratan;
 use Illuminate\Database\QueryException;
@@ -87,6 +89,23 @@ class PermintaanLayananController extends BackendController
         $this->titleOfIndexPage='Permintaan Layanan '.$this->jenisLayanan->jenis_layanan;
 
         $this->setBreadCrumb();
+        if(Auth::user()->isRole(RoleName::PENGGUNA)){
+            $this->extData=PermintaanLayanan::where('pemohon_id',Auth::user()->id)
+                            ->where('jenis_layanan_id',$idJenisLayanan)->get();
+        }elseif(Auth::user()->isRole(RoleName::OP_KELURAHAN)){
+            $this->extData=PermintaanLayanan::where('jenis_layanan_id',$idJenisLayanan)
+                            ->whereIn('status_permintaan_id',[StatusPermintaan::BARU,StatusPermintaan::SEDANG_VERIFIKASI_KELURAHAN])
+                            ->get();
+        }elseif(Auth::user()->isRole(RoleName::OP_KECAMATAN)){
+            $this->extData=PermintaanLayanan::where('jenis_layanan_id',$idJenisLayanan)
+                            ->whereIn('status_permintaan_id',[StatusPermintaan::SEDANG_VERIFIKASI_KECAMATAN,StatusPermintaan::SELESAI_VERIFIKASI_KELURAHAN])
+                            ->get();
+        }elseif(Auth::user()->isRole(RoleName::OP_KABUPATEN)){
+            $this->extData=PermintaanLayanan::where('jenis_layanan_id',$idJenisLayanan)
+                            ->whereIn('status_permintaan_id',[StatusPermintaan::SELESAI_VERIFIKASI_KECAMATAN,StatusPermintaan::SEDANG_DIPROSES,StatusPermintaan::SELESAI])
+                            ->get();
+        }
+
         if(view()->exists('admin.'.$this->modName.'.crud.index')){
             return view('admin.'.$this->modName.'.crud.index',get_object_vars($this));
         }else{
@@ -168,6 +187,23 @@ class PermintaanLayananController extends BackendController
                 ['value'=>5,'label'=>'SEDANG VERIFIKASI KECAMATAN'],
                 ['value'=>6,'label'=>'SELESAI VERIFIKASI KECAMATAN'],
                 ['value'=>7,'label'=>'DITOLAK KECAMATAN'],
+                ['value'=>8,'label'=>'SEDANG DIPROSES'],
+                ['value'=>9,'label'=>'SELESAI']
+            ];
+        }elseif(Auth::user()->isRole(RoleName::OP_KELURAHAN)){
+            $this->statusPermintaan=[
+                ['value'=>2,'label'=>'SEDANG VERIFIKASI KELURAHAN'],
+                ['value'=>3,'label'=>'SELESAI VERIFIKASI KELURAHAN'],
+                ['value'=>4,'label'=>'DITOLAK KELURAHAN'],
+            ];
+        }elseif(Auth::user()->isRole(RoleName::OP_KECAMATAN)){
+            $this->statusPermintaan=[
+                ['value'=>5,'label'=>'SEDANG VERIFIKASI KECAMATAN'],
+                ['value'=>6,'label'=>'SELESAI VERIFIKASI KECAMATAN'],
+                ['value'=>7,'label'=>'DITOLAK KECAMATAN'],
+            ];
+        }elseif(Auth::user()->isRole(RoleName::OP_KABUPATEN)){
+            $this->statusPermintaan=[
                 ['value'=>8,'label'=>'SEDANG DIPROSES'],
                 ['value'=>9,'label'=>'SELESAI']
             ];

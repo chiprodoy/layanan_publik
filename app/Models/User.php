@@ -88,11 +88,13 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function hasPermission($permission,$modName) {
+
         foreach($this->roles as $k => $v){
             return $v->permissions()
                         ->where('permission_name', $permission)
                         ->where('mod_name',"$modName")
-                        ->orWhere('mod_name','*')->first() ?: false;
+                       // ->orWhere('mod_name','*')
+                        ->first() ?: false;
         }
         /*       \Illuminate\Support\Facades\DB::enableQueryLog();
              $data=$this->role->permissions()

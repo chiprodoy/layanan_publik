@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\Role;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -31,15 +33,27 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('read',function($user,$modParam){
-            return $user->hasPermission('read',$modParam);
+            if($user->isRole(Role::SUPERADMIN)){
+                return true;
+            }else{
+                return $user->hasPermission('read',$modParam);
+            }
         });
 
         Gate::define('update',function($user,$modParam){
-            return $user->hasPermission('update',$modParam);
+            if($user->isRole(Role::SUPERADMIN)){
+                return true;
+            }else{
+                return $user->hasPermission('update',$modParam);
+            }
         });
 
         Gate::define('delete',function($user,$modParam){
-            return $user->hasPermission('delete',$modParam);
+            if($user->isRole(Role::SUPERADMIN)){
+                return true;
+            }else{
+                return $user->hasPermission('delete',$modParam);
+            }
         });
 
         Gate::define('show',function($user,$modParam){

@@ -19,19 +19,19 @@
         </div>
         <div class="col-lg-6">
             <div class="bookmark">
-                <ul>
-                    <li><a href="#"  title="Tambah Data Baru" data-original-title="Tambah Data"><i data-feather="file-plus"></i></a></li>
-                    <li><a href="#"  title="Hapus data" data-original-title="Hapus Data"><i data-feather="trash-2"></i></a></li>
-
-                    <li>
-                      <a href="javascript:void(0)"><i class="bookmark-search" data-feather="search"></i></a>
-                      <form class="form-inline search-form">
-                        <div class="form-group form-control-search">
-                          <input type="text" placeholder="Search..">
-                        </div>
-                      </form>
-                    </li>
-                </ul>
+                @can('create',$modelRecords)
+                <span>
+                    @if (strpos($createURL,'http')===0)
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ $createURL }}">
+                            <i class="bi bi-file-earmark-plus-fill"></i> Tambah
+                        </a>
+                    @else
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ route($createURL) }}">
+                            <i class="bi bi-file-earmark-plus-fill"></i> Tambah
+                        </a>
+                    @endif
+                </span>
+                @endcan
             </div>
         </div>
       </div>
@@ -44,10 +44,7 @@
             </div> --}}
                 <div class="card-block row">
                     <div class="col-sm-12 col-lg-12 col-xl-12">
-                        <div class="table-responsive">xxxxxxxxxx
-                            @php
-                                dd($showURL)
-                            @endphp
+                        <div class="table-responsive">
                             <x-viho::data-table :model="$modelRecords" :extData="$extData" :editButton="$editURL" :showButton="$showURL" :deleteButton="$deleteURL"/>
                         </div>
                     </div>

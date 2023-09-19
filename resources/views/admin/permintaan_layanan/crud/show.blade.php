@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-@can('create',$modelRecords)
+@can('show',$modelRecords)
 
 <div class="card">
     <form method="POST" action="{{ route('permintaan.updatestatus',$RECORD->uuid)}}" enctype="multipart/form-data">

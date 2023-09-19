@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PermintaanLayanan;
 use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,7 +15,7 @@ class StorePermintaanLayananRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->isRole(Role::SUPERADMIN) || $this->user()->can('create',JenisLayanan::class);
+        return $this->user()->isRole(Role::SUPERADMIN) || $this->user()->can('create',PermintaanLayanan::class);
     }
 
     /**

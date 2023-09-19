@@ -13,7 +13,7 @@
             </thead>
             <tbody>
                 @foreach ($record as $item)
-                    @canany(['view', 'read'], $item)
+                    @canany(['view', 'read','read-own'], get_class($item))
                         <tr>
                             <td scope="row"><input type="checkbox" class="datachecked" value="{{ $item->id}}"/></td>
                             @foreach ($column as $col)

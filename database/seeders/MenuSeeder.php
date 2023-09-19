@@ -23,8 +23,14 @@ class MenuSeeder extends Seeder
         ]);
        */
         Menu::create([
-            'label' => 'Permohonan',
-            'mod_name'=>'http://localhost:8000/portal/browse/berita',
+            'label' => 'Permohonan KK',
+            'mod_name'=>'http://localhost/z/layanan_publik/public/portal/permintaan/1',
+            'sort_order'=>2
+        ]);
+
+        Menu::create([
+            'label' => 'Permohonan KTP',
+            'mod_name'=>'http://localhost/z/layanan_publik/public/portal/permintaan/2',
             'sort_order'=>2
         ]);
 
