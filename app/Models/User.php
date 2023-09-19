@@ -23,7 +23,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'uid'
+        'uuid',
+        'nomor_telpon'
     ];
 
     /**
@@ -63,15 +64,19 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = Hash::make($value);
     }
 
-    /**
-     * Set the uid.
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function setUidAttribute($value)
-    {
-        $this->attributes['uid'] = (string) Str::uuid();
+    // /**
+    //  * Set the uid.
+    //  *
+    //  * @param  string  $value
+    //  * @return void
+    //  */
+    // public function setUidAttribute($value)
+    // {
+    //     $this->attributes['uid'] = (string) Str::uuid();
+    // }
+
+    public function setUuidAttribute($value){
+        $this->attributes['uuid'] = (Str::isUuid($value) ? $value : Str::uuid()); //
     }
 
     public function roles()
