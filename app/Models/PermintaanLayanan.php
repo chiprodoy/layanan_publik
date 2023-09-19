@@ -28,7 +28,7 @@ class PermintaanLayanan extends MainModel
         ['field'=>'email','title'=>'Email'],
         ['field'=>'nmr_tlpon','title'=>'Nomor telpon'],
         ['field'=>'alamat','title'=>'Alamat'],
-        ['field'=>'status_permintaan_id','title'=>'Status Permintaan'],
+        ['field'=>'status_permintaan_id','title'=>'Status Permintaan','render'=>'statusPermintaanRender'],
 
     ];
 
@@ -82,6 +82,20 @@ class PermintaanLayanan extends MainModel
     public function setPemohonIdAttribute($value)
     {
         $this->attributes['pemohon_id'] = Auth::user()->id;
+    }
+
+    public function statusPermintaanRender($val){
+        switch($val){
+            case StatusPermintaan::BARU : return 'Baru';
+            case StatusPermintaan::SEDANG_VERIFIKASI_KELURAHAN : return 'Sedang verifikasi kelurahan';
+            case StatusPermintaan::SELESAI_VERIFIKASI_KELURAHAN : return 'Selesai Verifikasi Kelurahan';
+            case StatusPermintaan::DITOLAK_KELURAHAN : return 'Ditolak Kelurahan';
+            case StatusPermintaan::SEDANG_VERIFIKASI_KECAMATAN : return 'Sedang verifikasi kecamatan';
+            case StatusPermintaan::SELESAI_VERIFIKASI_KECAMATAN : return 'Selesai Verifikasi Kecamatan';
+            case StatusPermintaan::DITOLAK_KECAMATAN : return 'Ditolak Kecamatan';
+            case StatusPermintaan::SEDANG_DIPROSES : return 'Sedang Diproses Pemerintah Kota / Kab';
+            case StatusPermintaan::SELESAI : return 'Selesai'; // contoh: selesai ktp bisa diambil
+        }
     }
 }
 

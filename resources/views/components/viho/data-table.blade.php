@@ -17,7 +17,6 @@
                         <tr>
                             <td scope="row"><input type="checkbox" class="datachecked" value="{{ $item->id}}"/></td>
                             @foreach ($column as $col)
-
                                 @if ($loop->first)
                                     <td width='15%'>
                                         @if (isset($showButton))
