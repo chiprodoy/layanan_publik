@@ -89,10 +89,7 @@ class PermintaanLayananController extends BackendController
         $this->titleOfIndexPage='Permintaan Layanan '.$this->jenisLayanan->jenis_layanan;
 
         $this->setBreadCrumb();
-        if(Auth::user()->isRole(RoleName::PENGGUNA)){
-            $this->extData=PermintaanLayanan::where('pemohon_id',Auth::user()->id)
-                            ->where('jenis_layanan_id',$idJenisLayanan)->get();
-        }elseif(Auth::user()->isRole(RoleName::OP_KELURAHAN)){
+        if(Auth::user()->isRole(RoleName::OP_KELURAHAN)){
             $this->extData=PermintaanLayanan::where('jenis_layanan_id',$idJenisLayanan)
                             ->whereIn('status_permintaan_id',[StatusPermintaan::BARU,StatusPermintaan::SEDANG_VERIFIKASI_KELURAHAN])
                             ->get();
@@ -104,6 +101,9 @@ class PermintaanLayananController extends BackendController
             $this->extData=PermintaanLayanan::where('jenis_layanan_id',$idJenisLayanan)
                             ->whereIn('status_permintaan_id',[StatusPermintaan::SELESAI_VERIFIKASI_KECAMATAN,StatusPermintaan::SEDANG_DIPROSES,StatusPermintaan::SELESAI])
                             ->get();
+        }else{
+            $this->extData=PermintaanLayanan::where('pemohon_id',Auth::user()->id)
+                            ->where('jenis_layanan_id',$idJenisLayanan)->get();
         }
 
         if(view()->exists('admin.'.$this->modName.'.crud.index')){

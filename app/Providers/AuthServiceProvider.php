@@ -57,7 +57,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('show',function($user,$modParam){
-            return $user->hasPermission('show',$modParam);
+            if($user->isRole(Role::SUPERADMIN)){
+                return true;
+            }else{
+                return $user->hasPermission('show',$modParam);
+            }
         });
 
         Gate::define('read-own',function($user,$modParam){
