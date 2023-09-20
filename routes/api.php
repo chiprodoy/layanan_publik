@@ -116,6 +116,11 @@ Route::prefix('init')->group(function(){
     Route::get('/storage',function(){
         Artisan::call('storage:link');
     });
+    Route::get('/storage2',function(){
+        $target = '/home/gqbfclrs/repositories/layanan_publik/storage/app/public';
+        $shortcut = '/home/gqbfclrs/rawasilir.0host.top/public_html/storage';
+        symlink($target, $shortcut);
+    });
 
 });
 

@@ -29,7 +29,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('create',function($user,$modParam){
-            return $user->hasPermission('create',$modParam);
+            if($user->isRole(Role::SUPERADMIN)){
+                return true;
+            }else{
+                return $user->hasPermission('create',$modParam);
+            }
         });
 
         Gate::define('read',function($user,$modParam){
